@@ -1,2 +1,3 @@
 # spring-rest
-My first studies with spring api. IDE used IntelliJ.
+My first studies using with spring api. IDEA used IntelliJ.
+Project @serratec
