@@ -1,6 +1,7 @@
 package com.dev.api.springrest.controllers;
 
 import com.dev.api.springrest.dtos.ClientDTO;
+import com.dev.api.springrest.exceptions.ClientException;
 import com.dev.api.springrest.models.Client;
 import com.dev.api.springrest.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,17 @@ public class ClientController {
     ClientService clientService;
 
     @GetMapping()
-        public ResponseEntity<List<Client>> listAll() {
+        public ResponseEntity<List<Client>> listAll() throws ClientException {
             return ResponseEntity.ok(clientService.listAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientDTO> findById(@PathVariable long id){
+    public ResponseEntity<ClientDTO> findById(@PathVariable long id) throws ClientException {
         return ResponseEntity.ok(clientService.findOneClient(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateById(@PathVariable long id, @RequestBody ClientDTO clientDTO){
+    public ResponseEntity<Void> updateById(@PathVariable long id, @RequestBody ClientDTO clientDTO) throws ClientException {
         clientService.updateClient(id, clientDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -43,7 +44,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteById(@PathVariable long id){
+        public ResponseEntity<Void> deleteById(@PathVariable long id) throws ClientException {
             clientService.deleteClient(id);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }

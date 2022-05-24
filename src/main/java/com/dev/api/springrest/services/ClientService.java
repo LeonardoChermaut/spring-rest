@@ -1,5 +1,6 @@
 package com.dev.api.springrest.services;
 import com.dev.api.springrest.dtos.ClientDTO;
+import com.dev.api.springrest.exceptions.ClientException;
 import com.dev.api.springrest.models.Client;
 import com.dev.api.springrest.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,8 @@ public class ClientService {
         clientRepository.save(client);
 
     }
-    public ClientDTO clientToDTO(ClientDTO clientDTO, Client client){
+
+    public ClientDTO clientToDTO(ClientDTO clientDTO, Client client) {
         client.setName(clientDTO.getName());
         client.setUserName(clientDTO.getUserName());
         client.setEmail(clientDTO.getEmail());
@@ -31,28 +33,30 @@ public class ClientService {
         return clientDTO;
     }
 
-    public Client dtoToClient(ClientDTO clientDTO, Client client){
-            clientDTO.setUserName(client.getUserName());
-            clientDTO.setEmail(client.getEmail());
-            clientDTO.setCpf(client.getCpf().replace(".", "").replace("-", ""));
-            clientDTO.setBirthDate(client.getBirthDate());
-            clientDTO.setAddress(client.getAddress());
-            clientDTO.setTelephone(client.getTelephone());
+    public Client dtoToClient(ClientDTO clientDTO, Client client) {
+        clientDTO.setUserName(client.getUserName());
+        clientDTO.setEmail(client.getEmail());
+        clientDTO.setCpf(client.getCpf().replace(".", "").replace("-", ""));
+        clientDTO.setBirthDate(client.getBirthDate());
+        clientDTO.setAddress(client.getAddress());
+        clientDTO.setTelephone(client.getTelephone());
 
-            return client;
+        return client;
     }
-    public ClientDTO findOneClient(Long id){
+
+    public ClientDTO findOneClient(Long id) throws ClientException {
         Optional<Client> client = clientRepository.findById(id);
         Client clientOnData;
         ClientDTO clientDTO = new ClientDTO();
-                if (client.isPresent()){
-                     clientOnData = client.get();
-                    clientDTO = clientToDTO(clientDTO, client.get());
-                }
-                return clientDTO;
+        if (client.isPresent()) {
+            clientOnData = client.get();
+            clientDTO = clientToDTO(clientDTO, client.get());
+            return clientDTO;
+        }
+            throw new ClientException("Id or option invalid.");
     }
 
-    public void updateClient(Long id, ClientDTO clientDTO) {
+    public void updateClient(Long id, ClientDTO clientDTO) throws ClientException {
         Optional<Client> client = clientRepository.findById(id);
         Client clientOnBank = new Client();
         if (client.isPresent()) {
@@ -77,13 +81,23 @@ public class ClientService {
             }
             clientRepository.save(clientOnBank);
         }
+        throw new ClientException("Update not conclude. Specification invalid or not exist.");
+
     }
-    public void deleteClient(long id){
+
+    public void deleteClient(long id) throws ClientException {
+        Optional<Client> client = clientRepository.findById(id);
+        if (id <= 0 || client.isEmpty()) {
+            throw new ClientException("Request invalid. Number or client not exists.");
+        }
         clientRepository.deleteById(id);
     }
 
-    public List<Client> listAll()
-    {
+    public List<Client> listAll() throws ClientException {
+        List<Client> client = clientRepository.findAll();
+        if (clientRepository == null) {
+            throw new ClientException("The clients list is null");
+        }
         return clientRepository.findAll();
     }
 }
