@@ -1,8 +1,6 @@
 package com.dev.api.springrest.models;
 
 import javax.persistence.*;
-import java.util.List;
-
 
 @Entity
 @Table(name = "client")
@@ -27,9 +25,9 @@ public class Client {
     @Column(name= "cli_tel")
     private String telephone;
 
-    @ManyToMany
+  /*  @ManyToMany
     @JoinTable(name="client_prod", joinColumns = {@JoinColumn(name="prod_id")}, inverseJoinColumns = {@JoinColumn(name="cli_id")})
-    private List<Product> products;
+    private List<Product> products;*/
 
     public Client() {}
 
@@ -109,11 +107,11 @@ public class Client {
         this.telephone = telephone;
     }
 
-    public List<Product> getProducts() {
+  /*  public List<Product> getProducts() {
         return products;
     }
 
     public void setProducts(List<Product> products) {
         this.products = products;
-    }
+    }*/
 }

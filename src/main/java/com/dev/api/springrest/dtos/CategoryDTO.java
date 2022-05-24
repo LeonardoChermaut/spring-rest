@@ -1,8 +1,5 @@
 package com.dev.api.springrest.dtos;
 
-import javax.persistence.OneToMany;
-import java.util.List;
-
 public class CategoryDTO {
 
     private Long id;
@@ -40,4 +37,5 @@ public class CategoryDTO {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

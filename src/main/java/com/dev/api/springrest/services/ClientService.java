@@ -13,7 +13,6 @@ public class ClientService {
     @Autowired
     ClientRepository clientRepository;
 
-    //CREATE CLIENT
     public void saveClient(ClientDTO clientDTO) {
         Client client = new Client();
         clientToDTO(clientDTO, client);
@@ -21,7 +20,6 @@ public class ClientService {
 
     }
     public ClientDTO clientToDTO(ClientDTO clientDTO, Client client){
-
         client.setName(clientDTO.getName());
         client.setUserName(clientDTO.getUserName());
         client.setEmail(clientDTO.getEmail());
@@ -34,7 +32,6 @@ public class ClientService {
     }
 
     public Client dtoToClient(ClientDTO clientDTO, Client client){
-
             clientDTO.setUserName(client.getUserName());
             clientDTO.setEmail(client.getEmail());
             clientDTO.setCpf(client.getCpf().replace(".", "").replace("-", ""));
@@ -58,7 +55,6 @@ public class ClientService {
     public void updateClient(Long id, ClientDTO clientDTO) {
         Optional<Client> client = clientRepository.findById(id);
         Client clientOnBank = new Client();
-
         if (client.isPresent()) {
             clientOnBank = client.get();
             if (clientDTO.getUserName() != null) {
@@ -82,7 +78,6 @@ public class ClientService {
             clientRepository.save(clientOnBank);
         }
     }
-
     public void deleteClient(long id){
         clientRepository.deleteById(id);
     }

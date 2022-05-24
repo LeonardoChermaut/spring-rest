@@ -27,15 +27,12 @@ public class ClientDTO {
     public Long getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getUserName() {
         return userName;
     }

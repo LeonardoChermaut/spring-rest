@@ -1,31 +1,37 @@
 package com.dev.api.springrest.dtos;
 
-import com.dev.api.springrest.models.Category;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import java.sql.Date;
 
 public class ProductDTO {
-
     private Long id;
     private String name;
     private Double unitaryValue;
     private String description;
-    private String expirationDate;
+
+    private long catId;
+    private Date expirationDate;
     private int quantity;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(Long id, String name, Double unitaryValue, String description, String expirationDate, int quantity) {
+    public ProductDTO(Long id, String name, Double unitaryValue, String description, Date expirationDate, int quantity, long catId) {
         this.id = id;
         this.name = name;
         this.unitaryValue = unitaryValue;
         this.description = description;
         this.expirationDate = expirationDate;
         this.quantity = quantity;
+        this.catId = catId;
     }
 
+    public long getCatId() {
+        return catId;
+    }
+
+    public void setCatId(long catId) {
+        this.catId = catId;
+    }
 
     public Long getId() {
         return id;
@@ -59,11 +65,11 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public String getExpirationDate() {
+    public Date getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(String expirationDate) {
+    public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
 

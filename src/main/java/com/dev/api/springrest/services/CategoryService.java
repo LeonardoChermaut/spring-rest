@@ -4,14 +4,11 @@ import com.dev.api.springrest.dtos.CategoryDTO;
 import com.dev.api.springrest.models.Category;
 import com.dev.api.springrest.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping(value = "/category")
+@Service
 public class CategoryService {
 	@Autowired
 	CategoryRepository categoryRepository;
@@ -22,14 +19,12 @@ public class CategoryService {
 		categoryRepository.save(category);
 	}
 	public CategoryDTO categoryToDTO(CategoryDTO categoryDTO, Category category){
-
 		category.setName(categoryDTO.getName());
 		category.setDescription(categoryDTO.getDescription());
 
 		return categoryDTO;
 	}
 	public Category dtoToCategory(CategoryDTO categoryDTO, Category category){
-
 		categoryDTO.setName(category.getName());
 		categoryDTO.setDescription(category.getDescription());
 
@@ -45,10 +40,10 @@ public class CategoryService {
 		}
 		return categoryDTO;
 	}
+
 	public void updateCategory(Long id, CategoryDTO categoryDTO) {
 		Optional<Category> category = categoryRepository.findById(id);
 		Category categoryOnBank = new Category();
-
 		if (category.isPresent()) {
 			categoryOnBank = category.get();
 			if (categoryDTO.getName() != null) {

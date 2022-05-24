@@ -1,7 +1,6 @@
 package com.dev.api.springrest.models;
 
-import java.util.Objects;
-
+import java.sql.Date;
 import javax.persistence.*;
 
 @Entity
@@ -9,7 +8,7 @@ import javax.persistence.*;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name= "prod_id", unique = true)
+	@Column(name= "prod_id")
 	private Long id;
 	@Column(name= "prod_name", unique = true)
 	private String name;
@@ -18,25 +17,22 @@ public class Product {
 	@Column(name= "prod_desc")
 	private String description;
 	@Column(name= "prod_exp_date")
-	private String expirationDate;
+	private Date expirationDate;
 	@Column(name="prod_quant")
 	private int quantity;
 
 	@ManyToOne
-	@JoinColumn(name="cat_id", nullable = true)
+	@JoinColumn(name="cat_id", nullable = false)
 	private Category category;
 
-public Product() {
-	
-}
-	public Product(Long id, String name, Double unitaryValue, String description, String expirationDate, int quantity, Category category) {
+public Product() {}
+	public Product(Long id, String name, Double unitaryValue, String description, Date expirationDate, int quantity) {
 		this.id = id;
 		this.name = name;
 		this.unitaryValue = unitaryValue;
 		this.description = description;
 		this.expirationDate = expirationDate;
 		this.quantity = quantity;
-		this.category = category;
 	}
 
 	public Long getId() {
@@ -71,11 +67,11 @@ public Product() {
 		this.description = description;
 	}
 
-	public String getExpirationDate() {
+	public Date getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(String expirationDate) {
+	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 
@@ -95,4 +91,3 @@ public Product() {
 		this.category = category;
 	}
 }
-

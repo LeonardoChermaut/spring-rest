@@ -17,6 +17,7 @@ public class Category {
 	private String description;
 	@OneToMany(mappedBy = "category")
 	private List<Product> products;
+
 	public Category() {}
 
 	public Category(Long id, String name, String description) {
@@ -49,11 +50,5 @@ public class Category {
 		this.description = description;
 	}
 
-	public List<Product> getProducts() {
-		return products;
-	}
 
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
 }

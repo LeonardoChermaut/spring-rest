@@ -2,28 +2,30 @@ package com.dev.api.springrest.services;
 
 import com.dev.api.springrest.dtos.ProductDTO;
 import com.dev.api.springrest.models.Product;
+import com.dev.api.springrest.repositories.CategoryRepository;
 import com.dev.api.springrest.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping(value = "/product")
+@Service
 public class ProductService {
-
 	@Autowired
 	private ProductRepository productRepository;
+
+	@Autowired
+	CategoryRepository categoryRepository;
 
 	public void saveProduct(ProductDTO productDTO) {
 		Product product = new Product();
 		productToDTO(productDTO, product);
+		product.setCategory(categoryRepository.findById(productDTO.getCatId()).orElseThrow());
 		productRepository.save(product);
 	}
 
 	public void productToDTO(ProductDTO productDTO, Product product){
-
 		product.setName(productDTO.getName());
 		product.setUnitaryValue(productDTO.getUnitaryValue());
 		product.setDescription(productDTO.getDescription());
@@ -33,7 +35,6 @@ public class ProductService {
 	}
 
 	public Product dtoToProduct(ProductDTO productDTO, Product product){
-
 		productDTO.setName(product.getName());
 		productDTO.setUnitaryValue(product.getUnitaryValue());
 		productDTO.setDescription(product.getDescription());
@@ -61,7 +62,6 @@ public class ProductService {
 	public void updateProduct(Long id, ProductDTO productDTO) {
 		Optional<Product> product = productRepository.findById(id);
 		Product productOnBank = new Product();
-
 		if (product.isPresent()) {
 			productOnBank = product.get();
 			if (productDTO.getName() != null) {
@@ -76,11 +76,9 @@ public class ProductService {
 			if (productDTO.getQuantity() != null) {
 				productOnBank.setQuantity(productDTO.getQuantity());
 			}
-
 			productRepository.save(productOnBank);
 		}
 	}
-
 }
 
 
