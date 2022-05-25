@@ -1,7 +1,6 @@
 package com.dev.api.springrest.dtos;
 
 public class ClientDTO {
-
     private Long id;
     private String name;
     private String userName;
@@ -10,7 +9,6 @@ public class ClientDTO {
     private String birthDate;
     private String address;
     private String telephone;
-
     public ClientDTO() {}
 
     public ClientDTO(Long id, String name, String userName, String email, String cpf, String birthDate, String address, String telephone) {
@@ -27,12 +25,19 @@ public class ClientDTO {
     public Long getId() {
         return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getUserName() {
         return userName;
     }

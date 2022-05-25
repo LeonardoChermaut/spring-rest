@@ -7,7 +7,6 @@ public class ProductDTO {
     private String name;
     private Double unitaryValue;
     private String description;
-
     private long catId;
     private Date expirationDate;
     private int quantity;

@@ -1,7 +1,6 @@
 package com.dev.api.springrest.controllers;
 
 import com.dev.api.springrest.dtos.CategoryDTO;
-import com.dev.api.springrest.models.Category;
 import com.dev.api.springrest.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +15,10 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     CategoryService categoryService;
-
     public CategoryController(CategoryService categoryService) {this.categoryService = categoryService;}
 
     @GetMapping()
-    public ResponseEntity<List<Category>> listAll() {
+    public ResponseEntity<List<CategoryDTO>> listAll() {
         return ResponseEntity.ok(categoryService.listAll());
     }
 

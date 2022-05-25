@@ -7,6 +7,7 @@ import com.dev.api.springrest.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,34 +20,46 @@ public class ProductService {
 	CategoryRepository categoryRepository;
 
 	public void saveProduct(ProductDTO productDTO) {
-		Product product = new Product();
-		productToDTO(productDTO, product);
+		Product product = dtoToProduct(productDTO);
 		product.setCategory(categoryRepository.findById(productDTO.getCatId()).orElseThrow());
 		productRepository.save(product);
 	}
 
-	public void productToDTO(ProductDTO productDTO, Product product){
-		product.setName(productDTO.getName());
-		product.setUnitaryValue(productDTO.getUnitaryValue());
-		product.setDescription(productDTO.getDescription());
-		product.setExpirationDate(productDTO.getExpirationDate());
-		product.setQuantity(productDTO.getQuantity());
-
-	}
-
-	public Product dtoToProduct(ProductDTO productDTO, Product product){
+	public ProductDTO productToDTO(Product product){
+		ProductDTO productDTO = new ProductDTO();
+		productDTO.setId(product.getId());
 		productDTO.setName(product.getName());
 		productDTO.setUnitaryValue(product.getUnitaryValue());
 		productDTO.setDescription(product.getDescription());
 		productDTO.setExpirationDate(product.getExpirationDate());
 		productDTO.setQuantity(product.getQuantity());
+		productDTO.setCatId(product.getId());
 
+		return productDTO;
+	}
+
+	public Product dtoToProduct(ProductDTO productDTO){
+		Product product = new Product();
+		product.setName(productDTO.getName());
+		product.setUnitaryValue(productDTO.getUnitaryValue());
+		product.setDescription(productDTO.getDescription());
+		product.setExpirationDate(productDTO.getExpirationDate());
+		product.setQuantity(productDTO.getQuantity());
 		return product;
 	}
 
 	public void deleteProduct(long id){productRepository.deleteById(id);}
 
-	public List<Product> listAll() {return productRepository.findAll();}
+	public List<ProductDTO> listAll() {
+		List<Product> product = productRepository.findAll();
+		List<ProductDTO> listDTO = new ArrayList<>();
+		for (Product products : product ){
+			ProductDTO productDTO=  productToDTO(products);
+			listDTO.add(productDTO);
+		}
+		return listDTO;
+	}
+
 
 	public ProductDTO findOneProduct(Long id){
 		Optional<Product> product = productRepository.findById(id);
@@ -54,7 +67,7 @@ public class ProductService {
 		ProductDTO productDTO = new ProductDTO();
 		if (product.isPresent()){
 			productOnData = product.get();
-			productToDTO(productDTO, product.get());
+			productToDTO(product.get());
 		}
 		return productDTO;
 	}

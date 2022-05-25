@@ -6,6 +6,7 @@ import com.dev.api.springrest.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,13 +16,29 @@ public class ClientService {
     ClientRepository clientRepository;
 
     public void saveClient(ClientDTO clientDTO) {
-        Client client = new Client();
-        clientToDTO(clientDTO, client);
+        Client client = dtoToClient(clientDTO);
         clientRepository.save(client);
 
     }
 
-    public ClientDTO clientToDTO(ClientDTO clientDTO, Client client) {
+    public ClientDTO clientToDTO(Client client) {
+        ClientDTO clientDTO = new ClientDTO();
+
+        clientDTO.setId(client.getId());
+        clientDTO.setName(client.getName());
+        clientDTO.setUserName(client.getUserName());
+        clientDTO.setEmail(client.getEmail());
+        clientDTO.setCpf(client.getCpf());
+        clientDTO.setBirthDate(client.getBirthDate());
+        clientDTO.setAddress(client.getAddress());
+        clientDTO.setTelephone(client.getTelephone());
+
+        return clientDTO;
+    }
+
+    public Client dtoToClient(ClientDTO clientDTO) {
+        Client client = new Client();
+
         client.setName(clientDTO.getName());
         client.setUserName(clientDTO.getUserName());
         client.setEmail(clientDTO.getEmail());
@@ -29,17 +46,6 @@ public class ClientService {
         client.setBirthDate(clientDTO.getBirthDate());
         client.setAddress(clientDTO.getAddress());
         client.setTelephone(clientDTO.getTelephone());
-
-        return clientDTO;
-    }
-
-    public Client dtoToClient(ClientDTO clientDTO, Client client) {
-        clientDTO.setUserName(client.getUserName());
-        clientDTO.setEmail(client.getEmail());
-        clientDTO.setCpf(client.getCpf().replace(".", "").replace("-", ""));
-        clientDTO.setBirthDate(client.getBirthDate());
-        clientDTO.setAddress(client.getAddress());
-        clientDTO.setTelephone(client.getTelephone());
 
         return client;
     }
@@ -50,7 +56,7 @@ public class ClientService {
         ClientDTO clientDTO = new ClientDTO();
         if (client.isPresent()) {
             clientOnData = client.get();
-            clientDTO = clientToDTO(clientDTO, client.get());
+            clientDTO = clientToDTO(client.get());
             return clientDTO;
         }
             throw new ClientException("Id or option invalid.");
@@ -93,11 +99,14 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
-    public List<Client> listAll() throws ClientException {
+    public List<ClientDTO> listAll(){
         List<Client> client = clientRepository.findAll();
-        if (clientRepository == null) {
-            throw new ClientException("The clients list is null");
+        List<ClientDTO> listClient = new ArrayList<>();
+        for (Client clients : client){
+            ClientDTO clientDTO = clientToDTO(clients);
+            listClient.add(clientDTO);
         }
-        return clientRepository.findAll();
+        return listClient;
     }
+
 }

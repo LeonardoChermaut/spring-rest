@@ -20,7 +20,7 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService) {this.employeeService = employeeService;}
 
     @GetMapping()
-    public ResponseEntity<List<Employee>> listAll() {
+    public ResponseEntity<List<EmployeeDTO>> listAll() {
         return ResponseEntity.ok(employeeService.listAll());
     }
 
