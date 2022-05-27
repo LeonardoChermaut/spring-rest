@@ -19,7 +19,7 @@ public class ProductService {
 	@Autowired
 	CategoryRepository categoryRepository;
 
-	public void saveProduct(ProductDTO productDTO) {
+	public void saveProduct(ProductDTO productDTO) throws Exception {
 		Product product = dtoToProduct(productDTO);
 		product.setCategory(categoryRepository.findById(productDTO.getCatId()).orElseThrow());
 		productRepository.save(product);
@@ -86,7 +86,7 @@ public class ProductService {
 			if (productDTO.getExpirationDate() != null) {
 				productOnBank.setExpirationDate(productDTO.getExpirationDate());
 			}
-			if (productDTO.getQuantity() != null) {
+			if (productDTO.getQuantity() != 0) {
 				productOnBank.setQuantity(productDTO.getQuantity());
 			}
 			productRepository.save(productOnBank);

@@ -1,4 +1,5 @@
 package com.dev.api.springrest.services;
+
 import com.dev.api.springrest.dtos.ClientDTO;
 import com.dev.api.springrest.exceptions.ClientException;
 import com.dev.api.springrest.models.Client;
@@ -18,9 +19,7 @@ public class ClientService {
     public void saveClient(ClientDTO clientDTO) {
         Client client = dtoToClient(clientDTO);
         clientRepository.save(client);
-
     }
-
     public ClientDTO clientToDTO(Client client) {
         ClientDTO clientDTO = new ClientDTO();
 
@@ -59,7 +58,7 @@ public class ClientService {
             clientDTO = clientToDTO(client.get());
             return clientDTO;
         }
-            throw new ClientException("Id or option invalid.");
+        throw new ClientException("Id or option invalid.");
     }
 
     public void updateClient(Long id, ClientDTO clientDTO) throws ClientException {
@@ -99,10 +98,10 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
-    public List<ClientDTO> listAll(){
+    public List<ClientDTO> listAll() {
         List<Client> client = clientRepository.findAll();
         List<ClientDTO> listClient = new ArrayList<>();
-        for (Client clients : client){
+        for (Client clients : client) {
             ClientDTO clientDTO = clientToDTO(clients);
             listClient.add(clientDTO);
         }

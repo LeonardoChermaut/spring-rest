@@ -1,7 +1,6 @@
 package com.dev.api.springrest.controllers;
 
 import com.dev.api.springrest.dtos.EmployeeDTO;
-import com.dev.api.springrest.models.Employee;
 import com.dev.api.springrest.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

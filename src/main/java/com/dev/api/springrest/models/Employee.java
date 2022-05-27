@@ -1,19 +1,35 @@
 package com.dev.api.springrest.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "employe_id", unique = true)
+    @Column(name = "employee_id", unique = true)
     private Long id;
-    @Column(name= "employe_name")
+    @Column(name = "employee_name", nullable = false)
     private String name;
-    @Column(name= "employe_cpf", unique = true)
+    @Column(name = "employee_cpf", unique = true)
+    @NotBlank(message = "CPF may not be blank")
+    @Size(max = 14)
     private String cpf;
 
-    public Employee(){}
+    //RELATIONSHIP PRODUCTS
+    @OneToMany(mappedBy = "employee")
+    private List<Product> product;
+
+    public Employee() {
+    }
 
     public Employee(Long id, String name, String cpf) {
         this.id = id;
@@ -21,27 +37,5 @@ public class Employee {
         this.cpf = cpf;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
 }

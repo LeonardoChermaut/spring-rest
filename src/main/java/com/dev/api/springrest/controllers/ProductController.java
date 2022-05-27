@@ -1,7 +1,6 @@
 package com.dev.api.springrest.controllers;
 
 import com.dev.api.springrest.dtos.ProductDTO;
-import com.dev.api.springrest.models.Product;
 import com.dev.api.springrest.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +38,7 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<Void> createProduct(@RequestBody ProductDTO productDTO){
+    public ResponseEntity<Void> createProduct(@RequestBody ProductDTO productDTO) throws Exception {
         productService.saveProduct(productDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
