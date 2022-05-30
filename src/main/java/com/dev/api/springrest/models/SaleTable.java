@@ -1,6 +1,8 @@
 package com.dev.api.springrest.models;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,9 +10,8 @@ import java.sql.Date;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@Table(name = "sale_table")
+@Data
+@NoArgsConstructor
 public class SaleTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,18 +24,10 @@ public class SaleTable {
     @Column(name = "sale_value")
     private double value;
 
-    //RELATIONSHIP SALE to PRODUCT
+
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private Set<RelProductSale> productSales;
 
-    //RELATIONSHIP SALE to CLIENTS
-//    @OneToMany(mappedBy = "saleTable", cascade = CascadeType.ALL)
-//    @JoinColumn(name = "client")
-//    private List<Client> clients;
-
-
-    public SaleTable() {
-    }
 
     public SaleTable(long id, Date date, double value) {
         this.id = id;

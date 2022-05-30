@@ -1,54 +1,42 @@
 package com.dev.api.springrest.models;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.Set;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.sql.Date;
 
 
 @Entity
-@Getter
-@Setter
-@Table(name = "client")
+@Data()
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cli_id")
     private Long id;
-    @Column(name = "cli_name")
-    @NotNull(message = "Name may not be null")
-    @Size(min = 10, max = 50)
+
+    @OneToMany(mappedBy="client")
+    private Set<Address> address;
+
+    @Column(nullable = false)
     private String name;
-    @Column(name = "cli_user", unique = true)
-    @NotNull(message = "UserName may not be null")
-    @Size(min = 5, max = 15)
+
+    @Column(unique = true, nullable = false)
     private String userName;
-    @Column(name = "cli_email")
-    @NotNull(message = "Email may not be null")
-    @Size(min = 10, max = 50)
+
+    @Column( nullable = false)
     private String email;
-    @Column(name = "cli_cpf", unique = true)
-    @NotBlank(message = "CPF may not be blank")
-    @Size(max = 14)
+
+    @Column( unique = true, nullable = false)
     private String cpf;
-    @Column(name = "cli_birth")
+
     private Date birthDate;
-    @Column(name = "cli_address")
-    @NotNull(message = "Address may not be null")
-    @Size(min = 15, max = 50)
-    private String address;
-    @Column(name = "cli_tel")
-    @NotBlank(message = "Telephone may not be blank")
-    @Size(max = 15)
+
+    @Column( nullable = false)
     private String telephone;
 
-//    @ManyToOne
-//    private SaleTable saleTable;
 
     public Client() {
     }
@@ -60,7 +48,6 @@ public class Client {
         this.email = email;
         this.cpf = cpf;
         this.birthDate = birthDate;
-        this.address = address;
         this.telephone = telephone;
     }
 
