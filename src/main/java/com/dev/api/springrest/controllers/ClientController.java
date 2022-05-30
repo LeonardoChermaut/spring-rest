@@ -1,6 +1,7 @@
 package com.dev.api.springrest.controllers;
 
 import com.dev.api.springrest.dtos.ClientDTO;
+import com.dev.api.springrest.dtos.client.UpdatedClientDto;
 import com.dev.api.springrest.exceptions.ClientException;
 import com.dev.api.springrest.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,9 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateById(@PathVariable long id, @RequestBody ClientDTO clientDTO) throws ClientException {
-        clientService.updateClient(id, clientDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Void> updateById(@PathVariable long id, @RequestBody UpdatedClientDto updateClientDTO) throws ClientException {
+        clientService.updateClient(id, updateClientDTO);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @PostMapping()
